@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { LOGO_B64 } from "@/lib/store";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
     }}>
       {/* 헤더 타이틀 */}
       <div style={{ textAlign: "center", marginBottom: "32px" }}>
-        <Image src="/logo.png" alt="EMFRONTIER LAB" width={72} height={72} style={{ objectFit: "contain", display: "block", margin: "0 auto 12px" }} />
+        <img src={LOGO_B64} alt="EMFRONTIER LAB" width={72} height={72} style={{ objectFit: "contain", display: "block", margin: "0 auto 12px" }} />
         <h1 style={{
           fontSize: "32px",
           fontWeight: "800",

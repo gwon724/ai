@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
+import { LOGO_B64,
   getCurrentUser, submitApplication, getRecommendedFunds,
   calcGrade, STATUS_LIST, STATUS_COLORS, FONT, UserRecord, Application, FundProduct,
-} from "@/lib/store";
+} from "@/lib/store"; // LOGO_B64 added
 
 const font = FONT;
 const GRADE_COLOR = (g: string) =>
@@ -79,7 +78,7 @@ export default function Dashboard() {
       <div style={{ backgroundColor: "#2563EB", padding: "14px 24px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}><Image src="/logo.png" alt="EMFRONTIER LAB" width={32} height={32} style={{ objectFit: "contain", filter: "invert(1)" }} /><p style={{ fontSize: "18px", fontWeight: "800", color: "#FFFFFF" }}>EMFRONTIER LAB</p></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}><img src={LOGO_B64} alt="EMFRONTIER LAB" width={32} height={32} style={{ objectFit: "contain", filter: "invert(1)" }} /><p style={{ fontSize: "18px", fontWeight: "800", color: "#FFFFFF" }}>EMFRONTIER LAB</p></div>
             <p style={{ fontSize: "12px", color: "#BFDBFE", marginTop: "2px" }}>{user.name}님 환영합니다</p>
           </div>
           <div style={{ display: "flex", gap: "8px" }}>

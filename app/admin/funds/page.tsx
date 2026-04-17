@@ -2,11 +2,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import {
+import { LOGO_B64,
   getAllFunds, addFund, updateFund, deleteFund,
   FONT, FUND_CATEGORIES, FundProduct,
-} from "@/lib/store";
+} from "@/lib/store"; // LOGO_B64 added
 
 const font = FONT;
 const GRADES = ["A", "B", "C", "D"];
@@ -118,7 +117,7 @@ export default function AdminFunds() {
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <Image src="/logo.png" alt="EMFRONTIER LAB" width={34} height={34} style={{ objectFit: "contain", filter: "invert(1)" }} />
+              <img src={LOGO_B64} alt="EMFRONTIER LAB" width={34} height={34} style={{ objectFit: "contain", filter: "invert(1)" }} />
               <div>
                 <p style={{ fontSize: "16px", fontWeight: "800", color: "#F8FAFC" }}>EMFRONTIER LAB</p>
                 <p style={{ fontSize: "11px", color: "#64748B" }}>자금 상품 관리</p>
