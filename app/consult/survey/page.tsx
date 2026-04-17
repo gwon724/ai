@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { submitConsultation, FONT } from "@/lib/store";
 
 const font = FONT;
@@ -230,7 +231,7 @@ export default function SurveyPage() {
       <header style={{ backgroundColor: "#FFFFFF", borderBottom: "1px solid #F1F5F9", padding: "0 24px", position: "sticky", top: 0, zIndex: 50, flexShrink: 0 }}>
         <div style={{ maxWidth: "640px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: "60px" }}>
           <Link href="/consult" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
-            <span style={{ fontSize: "20px" }}>🏦</span>
+            <Image src="/logo.png" alt="EMFRONTIER LAB 로고" width={34} height={34} style={{ objectFit: "contain" }} />
             <span style={{ fontSize: "15px", fontWeight: "800", color: "#0A1628", fontFamily: font }}>EMFRONTIER LAB</span>
           </Link>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>

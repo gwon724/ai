@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   getAllUsers, calcGrade, STATUS_COLORS, STATUS_LIST,
   FONT, UserRecord, deleteUser, getCurrentAdmin, AdminAccount,
@@ -167,7 +168,7 @@ export default function AdminDashboard() {
         <div style={{ maxWidth: "1500px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ fontSize: "22px" }}>🛡️</span>
+              <Image src="/logo.png" alt="EMFRONTIER LAB" width={34} height={34} style={{ objectFit: "contain", filter: "invert(1)" }} />
               <div>
                 <p style={{ fontSize: "16px", fontWeight: "800", color: "#F8FAFC" }}>EMFRONTIER LAB</p>
                 <p style={{ fontSize: "11px", color: "#64748B" }}>관리자 대시보드</p>

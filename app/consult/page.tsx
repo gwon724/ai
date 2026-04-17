@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FONT } from "@/lib/store";
 
@@ -77,7 +78,7 @@ export default function ConsultPage() {
       <header style={{ backgroundColor: "#0A1628", padding: "0 24px", position: "sticky", top: 0, zIndex: 100, borderBottom: "1px solid #1E2D47" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "64px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontSize: "24px" }}>🏦</span>
+            <Image src="/logo.png" alt="EMFRONTIER LAB 로고" width={40} height={40} style={{ objectFit: "contain", filter: "invert(1)" }} />
             <div>
               <p style={{ fontSize: "17px", fontWeight: "900", color: "#FFFFFF", letterSpacing: "0.04em" }}>EMFRONTIER LAB</p>
               <p style={{ fontSize: "10px", color: "#60A5FA", letterSpacing: "0.08em" }}>정책자금 전문 컨설팅</p>
@@ -390,7 +391,7 @@ export default function ConsultPage() {
       <footer style={{ backgroundColor: "#060E1A", padding: "32px 24px", borderTop: "1px solid #1E2D47" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
           <div>
-            <p style={{ fontSize: "15px", fontWeight: "800", color: "#FFFFFF", fontFamily: font, marginBottom: "4px" }}>🏦 EMFRONTIER LAB</p>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}><Image src="/logo.png" alt="EMFRONTIER LAB" width={24} height={24} style={{ objectFit: "contain", filter: "invert(1)" }} /><p style={{ fontSize: "15px", fontWeight: "800", color: "#FFFFFF", fontFamily: font }}>EMFRONTIER LAB</p></div>
             <p style={{ fontSize: "12px", color: "#475569", fontFamily: font }}>경영컨설팅업 정식 등록 · 법인사업자 2024년 설립</p>
           </div>
           <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { loginAdmin, FONT } from "@/lib/store";
 
 const font = FONT;
@@ -62,6 +63,7 @@ export default function AdminLogin() {
           <span style={{ fontSize: "26px" }}>🛡️</span>
         </div>
         <h1 style={{ fontSize: "26px", fontWeight: "800", color: "#F8FAFC", marginBottom: "4px" }}>
+          <Image src="/logo.png" alt="EMFRONTIER LAB" width={56} height={56} style={{ objectFit: "contain", filter: "invert(1)", display: "block", margin: "0 auto 8px" }} />
           EMFRONTIER LAB
         </h1>
         <p style={{ fontSize: "13px", color: "#64748B", fontFamily: font }}>관리자 포털</p>

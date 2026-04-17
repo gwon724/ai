@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   getConsultationById, updateConsultation,
   getAllFunds, FONT, Consultation, FundProduct,
@@ -238,7 +239,7 @@ export default function ConsultDonePage() {
       <div style={{ backgroundColor: "#1E3A8A", padding: "0 24px", position: "sticky", top: 0, zIndex: 50 }}>
         <div style={{ maxWidth: "900px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "60px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ fontSize: "22px" }}>🏦</span>
+            <Image src="/logo.png" alt="EMFRONTIER LAB" width={36} height={36} style={{ objectFit: "contain", filter: "invert(1)" }} />
             <div>
               <p style={{ fontSize: "16px", fontWeight: "800", color: "#FFFFFF" }}>EMFRONTIER LAB</p>
               <p style={{ fontSize: "11px", color: "#93C5FD" }}>AI 기업분석 & 정책자금 추천</p>

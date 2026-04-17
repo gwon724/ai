@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   lookupConsultations, getConsultationById,
   CONSULT_STATUS_LIST, CONSULT_STATUS_COLORS, FONT,
@@ -51,7 +52,7 @@ export default function ConsultLookupPage() {
       <div style={{ backgroundColor: "#1E3A8A", padding: "0 24px" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "60px" }}>
           <Link href="/consult" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-            <span style={{ fontSize: "22px" }}>🏦</span>
+            <Image src="/logo.png" alt="EMFRONTIER LAB" width={36} height={36} style={{ objectFit: "contain", filter: "invert(1)" }} />
             <div>
               <p style={{ fontSize: "16px", fontWeight: "800", color: "#FFFFFF" }}>EMFRONTIER LAB</p>
               <p style={{ fontSize: "11px", color: "#93C5FD" }}>정책자금 무료 상담 센터</p>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { loginUser, FONT } from "@/lib/store";
 
@@ -38,6 +39,7 @@ export default function LoginPage() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#E8EDFB", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 16px", fontFamily: font }}>
       <div style={{ textAlign: "center", marginBottom: "28px" }}>
+        <Image src="/logo.png" alt="EMFRONTIER LAB" width={60} height={60} style={{ objectFit: "contain", margin: "0 auto 8px", display: "block" }} />
         <h1 style={{ fontSize: "30px", fontWeight: "800", color: "#1E293B", marginBottom: "6px" }}>EMFRONTIER LAB</h1>
         <p style={{ fontSize: "15px", fontWeight: "600", color: "#3B82F6", marginBottom: "4px" }}>클라이언트 포털</p>
         <p style={{ fontSize: "13px", color: "#6B7280" }}>정책자금 신청 및 조회 시스템</p>

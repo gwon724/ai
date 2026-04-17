@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   getAllConsultations, updateConsultation, deleteConsultation,
   CONSULT_STATUS_LIST, CONSULT_STATUS_COLORS, FONT,
@@ -87,7 +88,7 @@ export default function AdminConsultationsPage() {
         <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "58px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <Link href="/admin/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ fontSize: "20px" }}>🏦</span>
+              <Image src="/logo.png" alt="EMFRONTIER LAB" width={32} height={32} style={{ objectFit: "contain", filter: "invert(1)" }} />
               <span style={{ fontSize: "15px", fontWeight: "800", color: "#F1F5F9", fontFamily: font }}>EMFRONTIER LAB</span>
             </Link>
             <span style={{ color: "#475569" }}>/</span>

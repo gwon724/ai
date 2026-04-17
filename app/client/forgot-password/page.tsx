@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const font = "'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
 
@@ -100,6 +101,7 @@ export default function ForgotPasswordPage() {
       {/* 헤더 */}
       <div style={{ textAlign: "center", marginBottom: "28px" }}>
         <h1 style={{ fontSize: "30px", fontWeight: "800", color: "#1E293B", marginBottom: "6px" }}>
+          <Image src="/logo.png" alt="EMFRONTIER LAB" width={56} height={56} style={{ objectFit: "contain", display: "block", margin: "0 auto 8px" }} />
           EMFRONTIER LAB
         </h1>
         <p style={{ fontSize: "15px", fontWeight: "600", color: "#3B82F6", marginBottom: "4px" }}>
