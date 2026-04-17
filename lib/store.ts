@@ -3034,8 +3034,8 @@ export function saveAllConsultations(list: Consultation[]) {
   lsSet("consultations", list);
 }
 
-/** 앱 시작 시 서버에서 데이터 복구 (최초 1회 호출) */
-export async function restoreFromServer() {
+/** 앱 시작 시 서버에서 데이터 복구 (최초 1회 호출 - 빈 키만 복구) */
+export async function restoreEmptyFromServer() {
   if (typeof window === "undefined") return;
 
   const keys = ["consultations", "users", "fundMaster", "adminAccounts"];
@@ -3104,4 +3104,78 @@ export function lookupConsultations(name: string, phone: string): Consultation[]
   return getAllConsultations().filter(
     c => c.name === name.trim() && c.phone.replace(/-/g, "") === phone.replace(/-/g, "")
   );
+}
+
+// ────────────────────────────────────────────
+// 서버사이드 동기화 (localStorage → /api/db)
+// 클라이언트 데이터를 서버에 영구 저장
+// ────────────────────────────────────────────
+
+/** localStorage의 특정 키를 서버 DB에 동기화 */
+export async function syncToServer(key: string, value: unknown): Promise<boolean> {
+  try {
+    const res = await fetch("/api/db", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, value }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/** 서버 DB에서 특정 키 데이터 읽기 */
+export async function loadFromServer<T>(key: string): Promise<T | null> {
+  try {
+    const res = await fetch(`/api/db?key=${encodeURIComponent(key)}`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.value ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/** 전체 클라이언트 데이터를 서버에 동기화 (users + consultations + adminAccounts) */
+export async function syncAllToServer(): Promise<{ ok: boolean; synced: string[] }> {
+  if (typeof window === "undefined") return { ok: false, synced: [] };
+  const synced: string[] = [];
+  const keys = ["users", "consultations", "adminAccounts", "fundMaster"];
+  for (const key of keys) {
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      try {
+        const value = JSON.parse(raw);
+        const ok = await syncToServer(key, value);
+        if (ok) synced.push(key);
+      } catch {
+        // ignore parse errors
+      }
+    }
+  }
+  return { ok: synced.length > 0, synced };
+}
+
+/** 서버 데이터를 localStorage에 복원 (손실 복구용) */
+export async function restoreFromServer(): Promise<{ ok: boolean; restored: string[] }> {
+  if (typeof window === "undefined") return { ok: false, restored: [] };
+  const restored: string[] = [];
+  const keys = ["users", "consultations", "adminAccounts", "fundMaster"];
+  for (const key of keys) {
+    const value = await loadFromServer(key);
+    if (value !== null) {
+      localStorage.setItem(key, JSON.stringify(value));
+      restored.push(key);
+    }
+  }
+  return { ok: restored.length > 0, restored };
+}
+
+/** 데이터 변경 시 자동으로 서버에 백업 (사용법: wrapWithSync("users", users) ) */
+export function lsSetAndSync(key: string, value: unknown) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(key, JSON.stringify(value));
+  // 비동기 서버 동기화 (실패해도 localStorage는 이미 저장됨)
+  syncToServer(key, value).catch(() => {});
 }

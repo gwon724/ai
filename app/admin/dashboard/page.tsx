@@ -7,7 +7,8 @@ import { LOGO_B64,
   FONT, UserRecord, deleteUser, getCurrentAdmin, AdminAccount,
   getAllConsultations, updateConsultation,
   CONSULT_STATUS_LIST, CONSULT_STATUS_COLORS, Consultation, ConsultStatus,
-} from "@/lib/store"; // LOGO_B64 added
+  syncAllToServer, restoreFromServer,
+} from "@/lib/store";
 
 const font = FONT;
 
@@ -55,6 +56,8 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [admin, setAdmin] = useState<AdminAccount | null>(null);
   const [lastRefresh, setLastRefresh] = useState("");
+  const [syncStatus, setSyncStatus] = useState<"idle" | "syncing" | "done" | "error">("idle");
+  const [restoreStatus, setRestoreStatus] = useState<"idle" | "restoring" | "done" | "error">("idle");
 
   const refresh = useCallback(() => {
     setUsers(getAllUsers());
@@ -75,6 +78,81 @@ export default function AdminDashboard() {
     localStorage.removeItem("adminLoggedIn");
     localStorage.removeItem("currentAdminId");
     router.push("/admin/login");
+  };
+
+  // 서버 동기화 (백업)
+  const handleSync = async () => {
+    setSyncStatus("syncing");
+    try {
+      const result = await syncAllToServer();
+      setSyncStatus(result.ok ? "done" : "error");
+    } catch {
+      setSyncStatus("error");
+    }
+    setTimeout(() => setSyncStatus("idle"), 3000);
+  };
+
+  // 서버에서 복원
+  const handleRestore = async () => {
+    if (!confirm("서버 백업 데이터로 현재 브라우저 데이터를 덮어씁니다.\n계속하시겠습니까?")) return;
+    setRestoreStatus("restoring");
+    try {
+      const result = await restoreFromServer();
+      if (result.ok) {
+        setRestoreStatus("done");
+        refresh();
+      } else {
+        setRestoreStatus("error");
+      }
+    } catch {
+      setRestoreStatus("error");
+    }
+    setTimeout(() => setRestoreStatus("idle"), 3000);
+  };
+
+  // 전체 데이터 JSON 다운로드
+  const handleDownload = async () => {
+    try {
+      const res = await fetch("/api/backup");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `emfrontier-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      alert("다운로드 실패. 서버 동기화를 먼저 실행하세요.");
+    }
+  };
+
+  // JSON 파일 업로드 복원
+  const handleUploadRestore = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const json = JSON.parse(text);
+        const res = await fetch("/api/backup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(json),
+        });
+        if (res.ok) {
+          await handleRestore();
+          alert("✅ 백업 파일로 복원 완료!");
+        } else {
+          alert("❌ 복원 실패");
+        }
+      } catch {
+        alert("❌ 파일 형식이 올바르지 않습니다.");
+      }
+    };
+    input.click();
   };
 
   const handleDeleteUser = (userId: string) => {
@@ -191,6 +269,18 @@ export default function AdminDashboard() {
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span style={{ fontSize: "11px", color: "#22C55E", backgroundColor: "#052E16", padding: "4px 10px", borderRadius: "999px", border: "1px solid #166534" }}>● 실시간 동기화</span>
             <span style={{ fontSize: "11px", color: "#475569" }}>{lastRefresh}</span>
+            <button onClick={handleSync} disabled={syncStatus === "syncing"}
+              style={{ padding: "5px 12px", backgroundColor: syncStatus === "done" ? "#166534" : syncStatus === "error" ? "#7F1D1D" : "#1D4ED8", color: "#FFF", fontSize: "11px", fontWeight: "600", border: "none", borderRadius: "6px", cursor: "pointer", fontFamily: font }}>
+              {syncStatus === "syncing" ? "⏳ 동기화중..." : syncStatus === "done" ? "✅ 저장완료" : syncStatus === "error" ? "❌ 오류" : "☁️ 서버저장"}
+            </button>
+            <button onClick={handleDownload}
+              style={{ padding: "5px 12px", backgroundColor: "#0F766E", color: "#FFF", fontSize: "11px", fontWeight: "600", border: "none", borderRadius: "6px", cursor: "pointer", fontFamily: font }}>
+              📥 백업다운
+            </button>
+            <button onClick={handleUploadRestore}
+              style={{ padding: "5px 12px", backgroundColor: "#7C3AED", color: "#FFF", fontSize: "11px", fontWeight: "600", border: "none", borderRadius: "6px", cursor: "pointer", fontFamily: font }}>
+              📤 백업복원
+            </button>
             {admin && <span style={{ fontSize: "12px", color: "#94A3B8" }}>{admin.name} ({admin.role === "superadmin" ? "슈퍼관리자" : "관리자"})</span>}
             <button onClick={logout} style={{ padding: "7px 16px", backgroundColor: "#334155", color: "#CBD5E1", fontSize: "12px", fontWeight: "600", border: "none", borderRadius: "7px", cursor: "pointer", fontFamily: font }}>
               로그아웃
