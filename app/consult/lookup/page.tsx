@@ -46,7 +46,28 @@ export default function ConsultLookupPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#F0F4FF", fontFamily: font }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#F0F4FF", fontFamily: font, overflowX: "hidden" }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        .lk-search-pad { padding: 28px 32px; }
+        .lk-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .lk-status-dots { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .lk-status-label { font-size: 9px; }
+        .lk-detail-pad { padding: 24px 32px; }
+        .lk-banner-pad { padding: 24px 32px; }
+        @media (max-width: 640px) {
+          .lk-search-pad { padding: 20px 16px; }
+          .lk-detail-pad { padding: 16px 16px; }
+          .lk-banner-pad { padding: 16px 16px; }
+        }
+        @media (max-width: 480px) {
+          .lk-info-grid { grid-template-columns: 1fr; }
+          .lk-status-label { font-size: 8px; }
+        }
+        @media (max-width: 380px) {
+          .lk-status-dots { flex-wrap: wrap; gap: 4px; justify-content: center; }
+        }
+      `}</style>
       {/* 헤더 */}
       <div style={{ backgroundColor: "#1E3A8A", padding: "0 24px" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "60px" }}>
@@ -63,7 +84,7 @@ export default function ConsultLookupPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 16px 60px" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "32px 12px 48px" }}>
 
         {/* 타이틀 */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
@@ -93,7 +114,7 @@ export default function ConsultLookupPage() {
             ))}
           </div>
 
-          <div style={{ padding: "28px 32px" }}>
+          <div className="lk-search-pad">
             {mode === "name" ? (
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <div>
@@ -181,7 +202,7 @@ export default function ConsultLookupPage() {
             {(() => {
               const sc = CONSULT_STATUS_COLORS[selected.status];
               return (
-                <div style={{ padding: "24px 32px", backgroundColor: sc.bg, borderBottom: `2px solid ${sc.border}` }}>
+                <div className="lk-banner-pad" style={{ backgroundColor: sc.bg, borderBottom: `2px solid ${sc.border}` }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div>
                       <p style={{ fontSize: "12px", color: "#64748B", fontFamily: font, marginBottom: "4px" }}>접수번호 {selected.id}</p>
@@ -194,7 +215,7 @@ export default function ConsultLookupPage() {
 
                   {/* 진행 바 */}
                   <div style={{ marginTop: "16px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
+                    <div className="lk-status-dots">
                       {CONSULT_STATUS_LIST.map(s => {
                         const isCurrent = s === selected.status;
                         const isPast = CONSULT_STATUS_LIST.indexOf(s) <= CONSULT_STATUS_LIST.indexOf(selected.status);
@@ -211,7 +232,7 @@ export default function ConsultLookupPage() {
                             }}>
                               {isPast ? "✓" : "○"}
                             </div>
-                            <p style={{ fontSize: "9px", color: isPast ? sc.text : "#9CA3AF", fontWeight: isCurrent ? "800" : "400", marginTop: "4px", fontFamily: font }}>
+                            <p className="lk-status-label" style={{ color: isPast ? sc.text : "#9CA3AF", fontWeight: isCurrent ? "800" : "400", marginTop: "4px", fontFamily: font }}>
                               {s}
                             </p>
                           </div>
@@ -227,8 +248,8 @@ export default function ConsultLookupPage() {
             })()}
 
             {/* 상담 정보 */}
-            <div style={{ padding: "24px 32px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
+            <div className="lk-detail-pad">
+              <div className="lk-info-grid">
                 {[
                   ["신청자", `${selected.name} (${selected.gender}, ${selected.age}세)`],
                   ["연락처", selected.phone],
