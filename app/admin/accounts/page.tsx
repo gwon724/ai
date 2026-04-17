@@ -109,6 +109,10 @@ export default function AdminAccounts() {
         }
         @media (max-width:480px) {
           .col-hide-xs { display:none; }
+          .ap-header { padding:8px 10px; }
+        }
+        @media (max-width:360px) {
+          .ap-brand .t1 { font-size:13px; }
         }
       `}</style>
 

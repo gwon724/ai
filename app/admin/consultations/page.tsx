@@ -179,6 +179,8 @@ export default function AdminConsultationsPage() {
         }
         @media (max-width:480px) {
           .cp-brand .t1 { font-size:13px; }
+          .cp-body { padding:8px; }
+          .detail-overlay { padding:8px; }
         }
       `}</style>
 

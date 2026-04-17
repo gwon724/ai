@@ -147,6 +147,8 @@ export default function AdminFunds() {
           .fund-detail-grid { grid-template-columns:repeat(2,1fr); }
           .fund-form-grid { grid-template-columns:1fr; }
           .fp-brand .t2 { display:none; }
+          .fp-filter-row { flex-direction:column; align-items:stretch; }
+          .fp-filter-row input, .fp-filter-row select { min-width:0; flex:none; }
         }
         @media (max-width:400px) {
           .fp-stats { grid-template-columns:1fr 1fr; }
@@ -255,7 +257,7 @@ export default function AdminFunds() {
             </select>
             <span style={{ fontSize: "12px", color: "#64748B", whiteSpace: "nowrap" }}>{filtered.length}개</span>
             <button onClick={openAdd}
-              style={{ padding: "8px 14px", backgroundColor: "#2563EB", color: "#FFF", fontSize: "12px", fontWeight: "700", border: "none", borderRadius: "7px", cursor: "pointer", fontFamily: font, whiteSpace: "nowrap", marginLeft: "auto" }}>
+              style={{ padding: "8px 14px", backgroundColor: "#2563EB", color: "#FFF", fontSize: "12px", fontWeight: "700", border: "none", borderRadius: "7px", cursor: "pointer", fontFamily: font, whiteSpace: "nowrap" }}>
               + 자금 추가
             </button>
           </div>

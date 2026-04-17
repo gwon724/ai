@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 
     'Malgun Gothic', '맑은 고딕', sans-serif;
@@ -12,6 +16,8 @@ body {
   word-break: keep-all;
   background-color: #ffffff;
   color: #1F2937;
+  overflow-x: hidden;
+  min-width: 320px;
 }
 
 /* ── Responsive Utility Classes ── */

@@ -95,6 +95,11 @@ export default function AdminLogin() {
           .al-logo h1 { font-size: 22px; }
           .al-logo img { width: 48px; height: 48px; }
         }
+        @media (max-width: 360px) {
+          .al-card { padding: 20px 14px; border-radius: 12px; }
+          .al-logo h1 { font-size: 20px; }
+          .al-wrap { padding: 24px 12px; }
+        }
       `}</style>
       <div className="al-wrap">
         <div className="al-logo">

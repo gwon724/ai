@@ -265,6 +265,9 @@ export default function AdminDashboard() {
         }
         .consult-overlay.open { display:block; }
         .consult-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        @media (max-width:480px) {
+          .consult-detail-grid { grid-template-columns:1fr; }
+        }
 
         /* Responsive breakpoints */
         @media (max-width:1100px) {

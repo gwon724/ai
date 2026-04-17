@@ -90,17 +90,18 @@ export default function Dashboard() {
     <>
       <style>{`
         * { box-sizing: border-box; }
+        * { box-sizing: border-box; }
         .cd-wrap { min-height: 100vh; background-color: #E8EDFB; font-family: ${font}; }
         .cd-header { background-color: #2563EB; padding: 10px 14px; }
         .cd-header-inner {
           max-width: 1100px; margin: 0 auto;
           display: flex; justify-content: space-between; align-items: center; gap: 8px;
         }
-        .cd-header-left { min-width: 0; flex: 1; }
-        .cd-header-left .name { font-size: 16px; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cd-header-left .welcome { font-size: 11px; color: #BFDBFE; margin-top: 2px; }
-        .cd-header-right { display: flex; gap: 7px; align-items: center; flex-shrink: 0; }
-        .cd-header-right button { padding: 7px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; cursor: pointer; font-family: ${font}; white-space: nowrap; }
+        .cd-header-left { min-width: 0; flex: 1; overflow: hidden; }
+        .cd-header-left .name { font-size: 15px; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cd-header-left .welcome { font-size: 11px; color: #BFDBFE; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cd-header-right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+        .cd-header-right button { padding: 6px 10px; font-size: 11px; font-weight: 700; border-radius: 7px; cursor: pointer; font-family: ${font}; white-space: nowrap; border: none; }
         .cd-main { max-width: 1100px; margin: 0 auto; padding: 14px 10px; }
         .cd-banner {
           background: linear-gradient(135deg,#2563EB 0%,#7C3AED 100%);
@@ -116,12 +117,12 @@ export default function Dashboard() {
         }
         .cd-card {
           background: #FFFFFF; border-radius: 14px;
-          box-shadow: 0 2px 10px rgba(99,120,200,0.10); padding: 16px;
+          box-shadow: 0 2px 10px rgba(99,120,200,0.10); padding: 16px; margin-bottom: 12px;
         }
         .cd-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
         .cd-fund-detail { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
         .status-grid { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
-        .status-item { flex: 1; min-width: 56px; text-align: center; padding: 8px 4px; border-radius: 8px; }
+        .status-item { flex: 1; min-width: 54px; text-align: center; padding: 7px 4px; border-radius: 8px; }
 
         @media (max-width: 768px) {
           .cd-2col { grid-template-columns: 1fr; }
@@ -130,14 +131,15 @@ export default function Dashboard() {
         @media (max-width: 480px) {
           .cd-banner h2 { font-size: 17px; }
           .cd-banner p { font-size: 12px; }
-          .cd-banner { padding: 18px 14px; }
-          .cd-header-left .name { font-size: 14px; }
+          .cd-banner { padding: 16px 12px; }
           .cd-main { padding: 10px 8px; }
+          .cd-card { padding: 12px; }
+          .status-item { min-width: 44px; font-size: 11px; padding: 6px 2px; }
         }
-        @media (max-width: 380px) {
+        @media (max-width: 360px) {
           .cd-header-right .qr-btn { display: none; }
-          .status-item { min-width: 48px; }
           .cd-fund-detail { grid-template-columns: 1fr 1fr; }
+          .cd-header-left .name { font-size: 13px; }
         }
       `}</style>
       <div className="cd-wrap">
@@ -305,8 +307,8 @@ export default function Dashboard() {
 
         {/* QR Modal */}
         {showQR && (
-          <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.45)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: "16px" }}>
-            <div style={{ backgroundColor: "#FFFFFF", borderRadius: "16px", padding: "28px 24px", maxWidth: "320px", width: "100%", textAlign: "center" }}>
+          <div onClick={() => setShowQR(false)} style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.45)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 50, padding: "0" }}>
+            <div onClick={e => e.stopPropagation()} style={{ backgroundColor: "#FFFFFF", borderRadius: "20px 20px 0 0", padding: "24px 20px 32px", maxWidth: "400px", width: "100%", textAlign: "center" }}>
               <p style={{ fontSize: "16px", fontWeight: "700", color: "#1E293B", marginBottom: "6px" }}>📱 내 QR 코드</p>
               <p style={{ fontSize: "12px", color: "#6B7280", marginBottom: "14px" }}>이 QR 코드를 관리자에게 보여주세요</p>
               <img src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent("EMFRONTIER:" + user.email)}`} alt="QR" style={{ borderRadius: "8px", border: "1px solid #E5E7EB", marginBottom: "12px", maxWidth: "100%" }} />
@@ -318,12 +320,12 @@ export default function Dashboard() {
 
         {/* AI 진단 Modal */}
         {showDiag && (
-          <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: "12px" }}>
-            <div style={{ backgroundColor: "#FFFFFF", borderRadius: "20px", width: "100%", maxWidth: "600px", boxShadow: "0 12px 48px rgba(0,0,0,0.22)", maxHeight: "94vh", overflowY: "auto" }}>
+          <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 50, padding: "0" }}>
+            <div style={{ backgroundColor: "#FFFFFF", borderRadius: "20px 20px 0 0", width: "100%", maxWidth: "600px", boxShadow: "0 12px 48px rgba(0,0,0,0.22)", maxHeight: "92vh", overflowY: "auto" }}>
 
               {/* 분석 중 */}
               {diagStep === "analyzing" && (
-                <div style={{ padding: "48px 24px", textAlign: "center" }}>
+                <div style={{ padding: "48px 20px", textAlign: "center" }}>
                   <div style={{ fontSize: "52px", marginBottom: "18px" }}>🤖</div>
                   <p style={{ fontSize: "18px", fontWeight: "800", color: "#1E293B", marginBottom: "10px" }}>AI 분석 중...</p>
                   <p style={{ fontSize: "13px", color: "#6B7280", lineHeight: "1.8" }}>
@@ -338,7 +340,7 @@ export default function Dashboard() {
 
               {/* 자금 선택 */}
               {diagStep === "select" && !submitDone && (
-                <div style={{ padding: "24px 20px 20px" }}>
+                <div style={{ padding: "20px 16px 20px" }}>
                   <div style={{ marginBottom: "16px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
                       <span style={{ fontSize: "20px" }}>🎯</span>
