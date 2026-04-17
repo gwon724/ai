@@ -53,18 +53,8 @@ export default function AdminLogin() {
     }}>
       {/* 로고 */}
       <div style={{ textAlign: "center", marginBottom: "32px" }}>
-        <div style={{
-          display: "inline-flex", alignItems: "center", justifyContent: "center",
-          width: "56px", height: "56px", backgroundColor: "#2563EB",
-          borderRadius: "16px", marginBottom: "16px",
-          boxShadow: "0 4px 20px rgba(37,99,235,0.4)",
-        }}>
-          <span style={{ fontSize: "26px" }}>🛡️</span>
-        </div>
-        <h1 style={{ fontSize: "26px", fontWeight: "800", color: "#F8FAFC", marginBottom: "4px" }}>
-          <img src={LOGO_B64} alt="EMFRONTIER LAB" width={56} height={56} style={{ objectFit: "contain", filter: "invert(1)", display: "block", margin: "0 auto 8px" }} />
-          EMFRONTIER LAB
-        </h1>
+        <img src={LOGO_B64} alt="EMFRONTIER LAB" width={56} height={56} style={{ objectFit: "contain", filter: "invert(1)", display: "block", margin: "0 auto 12px" }} />
+        <h1 style={{ fontSize: "26px", fontWeight: "800", color: "#F8FAFC", marginBottom: "4px" }}>EMFRONTIER LAB</h1>
         <p style={{ fontSize: "13px", color: "#64748B", fontFamily: font }}>관리자 포털</p>
       </div>
 
@@ -144,20 +134,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        {/* 초기 계정 안내 */}
-        <div style={{
-          marginTop: "20px", padding: "12px 14px",
-          backgroundColor: "#0F172A", borderRadius: "8px",
-          border: "1px solid #1E3A5F",
-        }}>
-          <p style={{ fontSize: "11px", color: "#475569", fontFamily: font, marginBottom: "4px" }}>
-            🔑 초기 관리자 계정
-          </p>
-          <p style={{ fontSize: "12px", color: "#64748B", fontFamily: font }}>
-            ID: <span style={{ color: "#93C5FD" }}>admin</span>
-            &nbsp;&nbsp;PW: <span style={{ color: "#93C5FD" }}>emfrontier2026!</span>
-          </p>
-        </div>
+
       </div>
 
       <p style={{ marginTop: "24px", fontSize: "11px", color: "#334155", fontFamily: font }}>
