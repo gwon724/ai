@@ -2582,11 +2582,12 @@ export function getAllFunds(): FundProduct[] {
 
   // 항상 최신 상태로 덮어씀
   localStorage.setItem("fundMaster", JSON.stringify(merged));
+  serverSave("fundMaster", merged);
   return merged;
 }
 
 export function saveAllFunds(funds: FundProduct[]) {
-  localStorage.setItem("fundMaster", JSON.stringify(funds));
+  lsSet("fundMaster", funds);
 }
 
 export function addFund(data: Omit<FundProduct, "id" | "createdAt">): FundProduct {
@@ -2667,19 +2668,19 @@ export function getAllAdmins(): AdminAccount[] {
   if (typeof window === "undefined") return [DEFAULT_ADMIN];
   const raw = localStorage.getItem("adminAccounts");
   if (!raw) {
-    localStorage.setItem("adminAccounts", JSON.stringify([DEFAULT_ADMIN]));
+    lsSet("adminAccounts", [DEFAULT_ADMIN]);
     return [DEFAULT_ADMIN];
   }
   const list: AdminAccount[] = JSON.parse(raw);
   if (!list.find(a => a.id === "admin")) {
     list.unshift(DEFAULT_ADMIN);
-    localStorage.setItem("adminAccounts", JSON.stringify(list));
+    lsSet("adminAccounts", list);
   }
   return list;
 }
 
 export function saveAllAdmins(admins: AdminAccount[]) {
-  localStorage.setItem("adminAccounts", JSON.stringify(admins));
+  lsSet("adminAccounts", admins);
 }
 
 export function loginAdmin(username: string, password: string): AdminAccount | null {
@@ -2740,7 +2741,7 @@ export function getAllUsers(): UserRecord[] {
 }
 
 export function saveAllUsers(users: UserRecord[]) {
-  localStorage.setItem("users", JSON.stringify(users));
+  lsSet("users", users);
 }
 
 export function getUserById(id: string): UserRecord | null {
@@ -2766,7 +2767,7 @@ export function registerUser(data: Omit<UserRecord, "id" | "registeredAt">): Use
     registeredAt: new Date().toLocaleString("ko-KR"),
   };
   upsertUser(user);
-  localStorage.setItem("userData", JSON.stringify(user));
+  localStorage.setItem("userData", JSON.stringify(user)); // userData는 세션 전용 (개인정보 서버 비저장)
   return user;
 }
 
@@ -2977,6 +2978,52 @@ function genConsultId(): string {
   return `CS-${ymd}-${rand}`;
 }
 
+// ────────────────────────────────────────────
+// 서버사이드 영구 저장 동기화 (데이터 유실 방지)
+// ────────────────────────────────────────────
+
+async function serverSave(key: string, value: unknown) {
+  try {
+    await fetch("/api/db", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, value }),
+    });
+  } catch (_) { /* 네트워크 에러 무시 — localStorage는 이미 저장됨 */ }
+}
+
+async function serverLoad(key: string): Promise<unknown> {
+  try {
+    const res = await fetch(`/api/db?key=${key}`);
+    const json = await res.json();
+    return json.value;
+  } catch (_) {
+    return null;
+  }
+}
+
+/** localStorage + 서버 파일 동시 저장 */
+function lsSet(key: string, value: unknown) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(key, JSON.stringify(value));
+  serverSave(key, value); // 비동기 백그라운드 저장
+}
+
+/** localStorage 우선, 없으면 서버 파일에서 복구 */
+async function lsGetOrRestore<T>(key: string, fallback: T): Promise<T> {
+  if (typeof window === "undefined") return fallback;
+  const local = localStorage.getItem(key);
+  if (local) return JSON.parse(local) as T;
+
+  // localStorage 비어 있으면 서버에서 복구 시도
+  const serverValue = await serverLoad(key);
+  if (serverValue !== null && serverValue !== undefined) {
+    localStorage.setItem(key, JSON.stringify(serverValue));
+    return serverValue as T;
+  }
+  return fallback;
+}
+
 export function getAllConsultations(): Consultation[] {
   if (typeof window === "undefined") return [];
   const raw = localStorage.getItem("consultations");
@@ -2984,7 +3031,38 @@ export function getAllConsultations(): Consultation[] {
 }
 
 export function saveAllConsultations(list: Consultation[]) {
-  localStorage.setItem("consultations", JSON.stringify(list));
+  lsSet("consultations", list);
+}
+
+/** 앱 시작 시 서버에서 데이터 복구 (최초 1회 호출) */
+export async function restoreFromServer() {
+  if (typeof window === "undefined") return;
+
+  const keys = ["consultations", "users", "fundMaster", "adminAccounts"];
+  for (const key of keys) {
+    const local = localStorage.getItem(key);
+    if (!local || local === "[]" || local === "null") {
+      const serverValue = await serverLoad(key);
+      if (serverValue !== null && serverValue !== undefined) {
+        localStorage.setItem(key, JSON.stringify(serverValue));
+        console.log(`[EMFRONTIER] 서버에서 '${key}' 데이터 복구 완료`);
+      }
+    }
+  }
+}
+
+/** 전체 데이터 서버에 즉시 강제 백업 */
+export async function backupAllToServer() {
+  if (typeof window === "undefined") return;
+
+  const keys = ["consultations", "users", "fundMaster", "adminAccounts"];
+  for (const key of keys) {
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      await serverSave(key, JSON.parse(raw));
+    }
+  }
+  console.log("[EMFRONTIER] 전체 데이터 서버 백업 완료");
 }
 
 export function getConsultationById(id: string): Consultation | null {
