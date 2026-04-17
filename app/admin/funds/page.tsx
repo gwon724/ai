@@ -91,26 +91,26 @@ export default function AdminFunds() {
   return (
     <>
       <style>{`
-        .fp-header { background-color:#1E293B; border-bottom:1px solid #334155; padding:12px 16px; position:sticky; top:0; z-index:10; }
-        .fp-header-inner { max-width:1300px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
-        .fp-brand { display:flex; align-items:center; gap:10px; }
-        .fp-brand p:first-child { font-size:16px; font-weight:800; color:#F8FAFC; }
-        .fp-brand p:last-child { font-size:11px; color:#64748B; }
-        .fp-nav { display:flex; gap:6px; flex-wrap:wrap; margin-left:12px; }
-        .fp-nav a { padding:6px 12px; font-size:12px; font-weight:600; border-radius:6px; text-decoration:none; white-space:nowrap; }
-        .fp-right { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-        .hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+        * { box-sizing: border-box; }
+        .fp-header { background-color:#1E293B; border-bottom:1px solid #334155; padding:10px 12px; position:sticky; top:0; z-index:10; }
+        .fp-header-inner { max-width:1300px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+        .fp-brand { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+        .fp-brand p:first-child { font-size:15px; font-weight:800; color:#F8FAFC; white-space:nowrap; }
+        .fp-brand p:last-child { font-size:11px; color:#64748B; white-space:nowrap; }
+        .fp-nav { display:flex; gap:5px; flex-wrap:nowrap; margin-left:10px; }
+        .fp-nav a { padding:5px 10px; font-size:12px; font-weight:600; border-radius:6px; text-decoration:none; white-space:nowrap; }
+        .fp-right { display:flex; gap:6px; align-items:center; flex-shrink:0; }
+        .hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; flex-shrink:0; }
         .hamburger span { display:block; width:22px; height:2px; background:#CBD5E1; border-radius:2px; margin:4px 0; }
         .mobile-overlay { display:none; }
         .mobile-overlay.open { display:flex; position:fixed; inset:0; background:rgba(15,23,42,0.97); z-index:100; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:24px; }
         .mobile-overlay a { width:100%; text-align:center; padding:14px; font-size:15px; font-weight:600; border-radius:8px; text-decoration:none; background:#334155; color:#CBD5E1; }
         .mobile-close { position:absolute; top:16px; right:16px; background:none; border:none; color:#94A3B8; font-size:24px; cursor:pointer; padding:8px; }
-        .fp-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:18px; }
-        .fp-grade-row { display:flex; gap:10px; }
-        .fp-grade-col { flex:1; }
-        .fp-filter-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; background-color:#1E293B; border-radius:12px; border:1px solid #334155; padding:12px 16px; margin-bottom:10px; }
-        .fund-detail-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:12px; }
-        .fund-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+        .fp-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:14px; }
+        .fp-grade-row { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+        .fp-filter-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; background-color:#1E293B; border-radius:12px; border:1px solid #334155; padding:10px 12px; margin-bottom:10px; }
+        .fund-detail-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:12px; }
+        .fund-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
         @media (max-width:1024px) {
           .fp-stats { grid-template-columns:repeat(3,1fr); }
           .fp-nav { display:none; }
@@ -118,12 +118,15 @@ export default function AdminFunds() {
         }
         @media (max-width:640px) {
           .fp-stats { grid-template-columns:repeat(2,1fr); }
-          .fp-grade-row { flex-direction:column; }
+          .fp-grade-row { grid-template-columns:repeat(2,1fr); }
           .fund-detail-grid { grid-template-columns:repeat(2,1fr); }
           .fund-form-grid { grid-template-columns:1fr; }
+          .fp-right .fp-hide-sm { display:none; }
         }
         @media (max-width:480px) {
           .fp-brand p:last-child { display:none; }
+          .fp-stats { grid-template-columns:repeat(2,1fr); }
+          .fund-detail-grid { grid-template-columns:repeat(2,1fr); }
         }
       `}</style>
 
@@ -158,10 +161,12 @@ export default function AdminFunds() {
             <div className="fp-right">
               {saved && <span style={{ fontSize: "12px", color: "#22C55E", backgroundColor: "#052E16", padding: "4px 10px", borderRadius: "999px" }}>✓ 저장</span>}
               <button onClick={() => { localStorage.removeItem("fundMaster"); localStorage.removeItem("fundMasterVersion"); refresh(); alert("자금 데이터가 초기화되었습니다."); }}
+                className="fp-hide-sm"
                 style={{ padding: "7px 12px", backgroundColor: "#7C3AED", color: "#FFFFFF", fontSize: "12px", fontWeight: "600", border: "none", borderRadius: "7px", cursor: "pointer", fontFamily: font, whiteSpace: "nowrap" }}>
                 🔄 초기화
               </button>
               <button onClick={() => { localStorage.removeItem("adminLoggedIn"); router.push("/admin/login"); }}
+                className="fp-hide-sm"
                 style={{ padding: "7px 12px", backgroundColor: "#334155", color: "#CBD5E1", fontSize: "12px", fontWeight: "600", border: "none", borderRadius: "7px", cursor: "pointer", fontFamily: font }}>
                 로그아웃
               </button>

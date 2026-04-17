@@ -89,34 +89,36 @@ export default function Dashboard() {
   return (
     <>
       <style>{`
+        * { box-sizing: border-box; }
         .cd-wrap { min-height: 100vh; background-color: #E8EDFB; font-family: ${font}; }
-        .cd-header { background-color: #2563EB; padding: 12px 16px; }
-        .cd-header-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .cd-header-left .name { font-size: 18px; font-weight: 800; color: #FFFFFF; }
-        .cd-header-left .welcome { font-size: 12px; color: #BFDBFE; margin-top: 2px; }
-        .cd-header-right { display: flex; gap: 8px; flex-wrap: wrap; }
-        .cd-header-right button { padding: 8px 14px; font-size: 13px; font-weight: 700; border-radius: 7px; cursor: pointer; font-family: ${font}; }
-        .cd-main { max-width: 1100px; margin: 0 auto; padding: 20px 12px; }
-        .cd-banner { background: linear-gradient(135deg,#2563EB 0%,#7C3AED 100%); border-radius: 14px; padding: 24px 20px; margin-bottom: 16px; text-align: center; color: #FFFFFF; }
-        .cd-banner h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-        .cd-banner p { font-size: 13px; color: #E0E7FF; margin-bottom: 16px; }
-        .cd-banner button { padding: 11px 28px; background: #FFFFFF; color: #2563EB; font-size: 14px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; font-family: ${font}; }
-        .cd-card { background: #FFFFFF; border-radius: 14px; box-shadow: 0 2px 12px rgba(99,120,200,0.10); padding: 20px; }
-        .cd-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-        .cd-fund-detail { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 10px; }
+        .cd-header { background-color: #2563EB; padding: 10px 14px; }
+        .cd-header-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .cd-header-left .name { font-size: 16px; font-weight: 800; color: #FFFFFF; white-space: nowrap; }
+        .cd-header-left .welcome { font-size: 11px; color: #BFDBFE; margin-top: 2px; }
+        .cd-header-right { display: flex; gap: 7px; align-items: center; flex-shrink: 0; }
+        .cd-header-right button { padding: 7px 13px; font-size: 12px; font-weight: 700; border-radius: 7px; cursor: pointer; font-family: ${font}; white-space: nowrap; }
+        .cd-main { max-width: 1100px; margin: 0 auto; padding: 14px 10px; }
+        .cd-banner { background: linear-gradient(135deg,#2563EB 0%,#7C3AED 100%); border-radius: 12px; padding: 20px 16px; margin-bottom: 14px; text-align: center; color: #FFFFFF; }
+        .cd-banner h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+        .cd-banner p { font-size: 13px; color: #E0E7FF; margin-bottom: 14px; }
+        .cd-banner button { padding: 10px 24px; background: #FFFFFF; color: #2563EB; font-size: 14px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; font-family: ${font}; }
+        .cd-card { background: #FFFFFF; border-radius: 12px; box-shadow: 0 2px 10px rgba(99,120,200,0.10); padding: 16px; }
+        .cd-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .cd-fund-detail { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 10px; }
         @media (max-width: 640px) {
           .cd-2col { grid-template-columns: 1fr; }
           .cd-fund-detail { grid-template-columns: repeat(2,1fr); }
-          .cd-banner h2 { font-size: 18px; }
-          .cd-header-left .name { font-size: 15px; }
-          .cd-header-right button { padding: 7px 10px; font-size: 12px; }
+          .cd-banner h2 { font-size: 17px; }
+          .cd-banner p { font-size: 12px; }
+          .cd-header-left .name { font-size: 14px; }
         }
         @media (max-width: 400px) {
-          .cd-fund-detail { grid-template-columns: 1fr; }
+          .cd-fund-detail { grid-template-columns: repeat(2,1fr); }
           .cd-header-right .qr-btn { display: none; }
+          .cd-banner { padding: 16px 12px; }
         }
-        .status-grid { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-        .status-item { flex: 1; min-width: 70px; text-align: center; padding: 10px 6px; border-radius: 8px; }
+        .status-grid { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
+        .status-item { flex: 1; min-width: 60px; text-align: center; padding: 8px 4px; border-radius: 8px; }
       `}</style>
       <div className="cd-wrap">
         {/* Header */}
