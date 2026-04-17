@@ -14,6 +14,242 @@ body {
   color: #1F2937;
 }
 
+/* ── Responsive Utility Classes ── */
+
+/* Mobile hamburger menu */
+.admin-nav-links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Stats grids */
+.stats-grid-8 {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+}
+
+.stats-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.stats-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.grade-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.fund-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.client-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.consult-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* Table scroll wrappers */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive consultation panel */
+.consult-layout {
+  display: flex;
+  gap: 16px;
+}
+
+/* Filter row */
+.filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Mobile: hide some header text */
+.admin-logo-text {
+  display: block;
+}
+
+.admin-subtitle {
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid-8 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .consult-layout {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid-8 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats-grid-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stats-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grade-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fund-detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .client-info-grid {
+    grid-template-columns: 1fr;
+  }
+  .consult-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-nav-links {
+    display: none;
+  }
+  .admin-nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15,23,42,0.97);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 32px 24px;
+  }
+  .admin-nav-links.mobile-open a {
+    width: 100%;
+    text-align: center;
+    font-size: 15px !important;
+    padding: 14px 20px !important;
+  }
+  .hamburger-btn {
+    display: flex !important;
+  }
+  .admin-subtitle {
+    display: none;
+  }
+  .hide-mobile {
+    display: none !important;
+  }
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid-8 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats-grid-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grade-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Client-side responsive */
+.client-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fund-detail-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.register-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .client-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .fund-detail-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .register-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hamburger button (hidden on desktop) */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+}
+.hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #CBD5E1;
+  border-radius: 2px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
