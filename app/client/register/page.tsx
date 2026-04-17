@@ -22,17 +22,10 @@ const sectionTitleStyle: React.CSSProperties = {
   fontSize: "15px", fontWeight: "700", color: "#1E293B", marginBottom: "16px", fontFamily: font,
 };
 
-const SECRET_CODE = "엠프론티어";
-
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // 인증 단계
-  const [authCode, setAuthCode] = useState("");
-  const [authError, setAuthError] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
 
   const [form, setForm] = useState({
     email: "", password: "", confirmPassword: "",
@@ -49,19 +42,9 @@ export default function RegisterPage() {
 
   const set = (key: string, val: string | boolean) => setForm(p => ({ ...p, [key]: val }));
 
-  const handleVerify = () => {
-    if (authCode.trim() === SECRET_CODE) {
-      setIsVerified(true);
-      setAuthError("");
-    } else {
-      setAuthError("인증 코드가 올바르지 않습니다. 다시 확인해주세요.");
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!isVerified) { setError("인증 코드를 먼저 확인해주세요."); return; }
     if (form.password !== form.confirmPassword) { setError("비밀번호가 일치하지 않습니다."); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     if (!form.agree_credit || !form.agree_privacy || !form.agree_secret) { setError("필수 동의 항목을 모두 체크해주세요."); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     setLoading(true);
@@ -87,55 +70,8 @@ export default function RegisterPage() {
 
       <div style={{ backgroundColor: "#FFFFFF", borderRadius: "16px", boxShadow: "0 4px 20px rgba(99,120,200,0.12)", padding: "32px 28px", width: "100%", maxWidth: "560px", margin: "0 auto" }}>
 
-        {/* ── 인증 코드 섹션 ── */}
-        {!isVerified ? (
-          <div style={{ textAlign: "center" }}>
-            <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: "28px" }}>
-              🔐
-            </div>
-            <p style={{ fontSize: "18px", fontWeight: "800", color: "#1E293B", marginBottom: "8px", fontFamily: font }}>
-              초대 코드 확인
-            </p>
-            <p style={{ fontSize: "13px", color: "#6B7280", marginBottom: "28px", lineHeight: "1.6", fontFamily: font }}>
-              회원가입은 초대된 분만 가능합니다.<br />
-              담당자로부터 받은 인증 코드를 입력해주세요.
-            </p>
-            <div style={{ marginBottom: "16px", textAlign: "left" }}>
-              <label style={labelStyle}>인증 코드 <span style={{ color: "#EF4444" }}>*</span></label>
-              <input
-                type="text"
-                placeholder="인증 코드를 입력하세요"
-                value={authCode}
-                onChange={e => { setAuthCode(e.target.value); setAuthError(""); }}
-                onKeyDown={e => e.key === "Enter" && handleVerify()}
-                style={{ ...inputStyle, fontSize: "15px", letterSpacing: "0.05em", textAlign: "center", border: authError ? "1.5px solid #EF4444" : "1.5px solid #D1D5DB" }}
-                autoFocus
-              />
-              {authError && (
-                <p style={{ fontSize: "12px", color: "#EF4444", marginTop: "6px", fontFamily: font }}>⚠ {authError}</p>
-              )}
-            </div>
-            <button
-              onClick={handleVerify}
-              style={{ width: "100%", padding: "13px", backgroundColor: "#2563EB", color: "#FFFFFF", fontSize: "15px", fontWeight: "700", border: "none", borderRadius: "8px", cursor: "pointer", fontFamily: font, boxShadow: "0 2px 8px rgba(37,99,235,0.25)" }}
-            >
-              확인
-            </button>
-            <div style={{ marginTop: "20px" }}>
-              <Link href="/client/login" style={{ fontSize: "13px", color: "#6B7280", textDecoration: "none", fontFamily: font }}>
-                ← 로그인으로 돌아가기
-              </Link>
-            </div>
-          </div>
-        ) : (
-          /* ── 회원가입 폼 ── */
+        {/* ── 회원가입 폼 ── */}
           <form onSubmit={handleSubmit}>
-            {/* 인증 완료 배지 */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "#ECFDF5", border: "1px solid #6EE7B7", borderRadius: "8px", padding: "10px 14px", marginBottom: "24px" }}>
-              <span style={{ fontSize: "16px" }}>✅</span>
-              <p style={{ fontSize: "13px", fontWeight: "600", color: "#065F46", fontFamily: font }}>인증 완료 · 회원가입을 진행해주세요</p>
-            </div>
-
             {error && (
               <div style={{ backgroundColor: "#FEE2E2", border: "1px solid #FECACA", borderRadius: "8px", padding: "10px 14px", marginBottom: "16px", fontSize: "13px", color: "#DC2626", fontFamily: font }}>{error}</div>
             )}
@@ -251,7 +187,6 @@ export default function RegisterPage() {
               </button>
             </div>
           </form>
-        )}
       </div>
 
       <p style={{ marginTop: "32px", fontSize: "11px", color: "#9CA3AF", textAlign: "center" }}>
