@@ -76,6 +76,11 @@ export default function LoginPage() {
           .cl-logo h1 { font-size: 24px; }
           .cl-logo img { width: 48px; height: 48px; }
         }
+        @media (max-width: 360px) {
+          .cl-wrap { padding: 20px 10px; }
+          .cl-card { padding: 18px 12px; }
+          .cl-logo h1 { font-size: 20px; }
+        }
       `}</style>
       <div className="cl-wrap">
         <div className="cl-logo">

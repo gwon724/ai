@@ -224,10 +224,26 @@ export default function SurveyPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#FFFFFF", fontFamily: font, display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#FFFFFF", fontFamily: font, display: "flex", flexDirection: "column", overflowX: "hidden" }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        .sv-options-grid { display: grid; gap: 10px; }
+        .sv-options-1 { grid-template-columns: 1fr; }
+        .sv-options-2 { grid-template-columns: 1fr 1fr; }
+        .sv-options-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .sv-form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 480px) {
+          .sv-options-2 { grid-template-columns: 1fr; }
+          .sv-options-3 { grid-template-columns: 1fr 1fr; }
+          .sv-form-2col { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 380px) {
+          .sv-options-3 { grid-template-columns: 1fr; }
+        }
+      `}</style>
 
       {/* ── 상단 헤더 ── */}
-      <header style={{ backgroundColor: "#FFFFFF", borderBottom: "1px solid #F1F5F9", padding: "0 24px", position: "sticky", top: 0, zIndex: 50, flexShrink: 0 }}>
+      <header style={{ backgroundColor: "#FFFFFF", borderBottom: "1px solid #F1F5F9", padding: "0 16px", position: "sticky", top: 0, zIndex: 50, flexShrink: 0 }}>
         <div style={{ maxWidth: "640px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: "60px" }}>
           <Link href="/consult" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
             <img src={LOGO_B64} alt="EMFRONTIER LAB 로고" width={34} height={34} style={{ objectFit: "contain" }} />
@@ -267,7 +283,7 @@ export default function SurveyPage() {
       </div>
 
       {/* ── 메인 컨텐츠 ── */}
-      <main style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "40px 24px" }}>
+      <main style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "32px 16px" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }}>
           <div style={slideStyle}>
 
@@ -288,11 +304,7 @@ export default function SurveyPage() {
                   </p>
                 </div>
 
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: currentStepData.options.length <= 3 ? "1fr" : currentStepData.options.length <= 4 ? "1fr 1fr" : "1fr 1fr 1fr",
-                  gap: "10px",
-                }}>
+                <div className={`sv-options-grid ${currentStepData.options.length <= 3 ? "sv-options-1" : currentStepData.options.length <= 4 ? "sv-options-2" : "sv-options-3"}`}>
                   {currentStepData.options.map(opt => {
                     const selected = (form as unknown as Record<string, string>)[currentStepData.id] === opt.value;
                     return (
@@ -396,7 +408,7 @@ export default function SurveyPage() {
                 {/* 입력 필드들 */}
                 <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                  <div className="sv-form-2col">
                     <div>
                       <label style={{ display: "block", fontSize: "13px", fontWeight: "700", color: "#374151", marginBottom: "6px", fontFamily: font }}>
                         이름 <span style={{ color: "#EF4444" }}>*</span>
@@ -437,7 +449,7 @@ export default function SurveyPage() {
                     {errors.email && <p style={{ fontSize: "11px", color: "#EF4444", marginTop: "4px", fontFamily: font }}>{errors.email}</p>}
                   </div>
 
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                  <div className="sv-form-2col">
                     <div>
                       <label style={{ display: "block", fontSize: "13px", fontWeight: "700", color: "#374151", marginBottom: "6px", fontFamily: font }}>
                         연매출액 <span style={{ color: "#EF4444" }}>*</span>

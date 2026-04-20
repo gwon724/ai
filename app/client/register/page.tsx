@@ -94,6 +94,12 @@ export default function RegisterPage() {
           .rg-logo img { width: 48px; height: 48px; }
           .rg-2col { grid-template-columns: 1fr; }
         }
+        @media (max-width: 360px) {
+          .rg-wrap { padding: 20px 10px; }
+          .rg-card { padding: 16px 12px; }
+          .rg-logo h1 { font-size: 20px; }
+          .rg-inp { padding: 9px 12px; font-size: 13px; }
+        }
       `}</style>
       <div className="rg-wrap">
         <div className="rg-logo">

@@ -72,41 +72,91 @@ export default function ConsultPage() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#FFFFFF", fontFamily: font, overflowX: "hidden" }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        body { overflow-x: hidden; }
+        .ct-header-nav { display: flex; gap: 12px; align-items: center; }
+        .ct-header-nav .nav-link { font-size: 13px; color: #94A3B8; text-decoration: none; }
+        .ct-hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+        .ct-hero-badges { display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
+        .ct-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background-color: #1E2D47; border-radius: 20px; overflow: hidden; }
+        .ct-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .ct-trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
+        .ct-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid #E2E8F0; border-radius: 20px; overflow: hidden; }
+        .ct-process-cell { padding: 28px 16px; text-align: center; }
+        .ct-review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .ct-cta-btn { padding: 18px 56px; font-size: 18px; }
+        .ct-cta-h2 { font-size: clamp(22px, 5vw, 36px); }
+        .ct-float-btn { position: fixed; bottom: 28px; right: 28px; z-index: 200; padding: 14px 24px; font-size: 14px; }
+        @media (max-width: 1024px) {
+          .ct-stats-grid { grid-template-columns: repeat(2, 1fr); }
+          .ct-process-grid { grid-template-columns: repeat(2, 1fr); }
+          .ct-why-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+          .ct-hero-grid { grid-template-columns: 1fr; gap: 24px; }
+          .ct-hero-badges { flex-direction: row; flex-wrap: wrap; min-width: 0; }
+          .ct-hero-badges > div { flex: 0 0 calc(50% - 5px); }
+          .ct-trust-grid { grid-template-columns: 1fr 1fr; }
+          .ct-review-grid { grid-template-columns: 1fr 1fr; }
+          .ct-header-nav .nav-link { display: none; }
+          .ct-stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+          .ct-why-grid { grid-template-columns: 1fr; }
+          .ct-review-grid { grid-template-columns: 1fr; }
+          .ct-process-grid { grid-template-columns: 1fr 1fr; }
+          .ct-cta-btn { padding: 14px 24px; font-size: 16px; width: 100%; }
+          .ct-float-btn { bottom: 16px; right: 16px; padding: 12px 18px; font-size: 13px; }
+        }
+        @media (max-width: 480px) {
+          .ct-stats-grid { grid-template-columns: repeat(2, 1fr); }
+          .ct-process-grid { grid-template-columns: 1fr 1fr; }
+          .ct-hero-badges > div { flex: 0 0 100%; }
+          .ct-trust-grid { grid-template-columns: 1fr; }
+          .ct-process-cell { padding: 18px 10px; }
+        }
+        @media (max-width: 380px) {
+          .ct-process-grid { grid-template-columns: 1fr; }
+          .ct-review-grid { grid-template-columns: 1fr; }
+          .ct-cta-btn { padding: 12px 16px; font-size: 15px; }
+        }
+      `}</style>
 
       {/* ══ 헤더 ══ */}
-      <header style={{ backgroundColor: "#0A1628", padding: "0 24px", position: "sticky", top: 0, zIndex: 100, borderBottom: "1px solid #1E2D47" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "64px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <img src={LOGO_B64} alt="EMFRONTIER LAB 로고" width={40} height={40} style={{ objectFit: "contain", filter: "invert(1)" }} />
-            <div>
-              <p style={{ fontSize: "17px", fontWeight: "900", color: "#FFFFFF", letterSpacing: "0.04em" }}>EMFRONTIER LAB</p>
-              <p style={{ fontSize: "10px", color: "#60A5FA", letterSpacing: "0.08em" }}>정책자금 전문 컨설팅</p>
+      <header style={{ backgroundColor: "#0A1628", padding: "0 16px", position: "sticky", top: 0, zIndex: 100, borderBottom: "1px solid #1E2D47" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "56px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
+            <img src={LOGO_B64} alt="EMFRONTIER LAB 로고" width={32} height={32} style={{ objectFit: "contain", filter: "invert(1)", flexShrink: 0 }} />
+            <div style={{ minWidth: 0 }}>
+              <p style={{ fontSize: "15px", fontWeight: "900", color: "#FFFFFF", letterSpacing: "0.04em", whiteSpace: "nowrap" }}>EMFRONTIER LAB</p>
+              <p style={{ fontSize: "9px", color: "#60A5FA", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>정책자금 전문 컨설팅</p>
             </div>
           </div>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <Link href="/consult/lookup" style={{ fontSize: "13px", color: "#94A3B8", textDecoration: "none", fontFamily: font }}>상담 조회</Link>
-            <Link href="/client/login" style={{ fontSize: "13px", color: "#94A3B8", textDecoration: "none", fontFamily: font }}>회원 로그인</Link>
+          <div className="ct-header-nav">
+            <Link href="/consult/lookup" className="nav-link">상담 조회</Link>
+            <Link href="/client/login" className="nav-link">로그인</Link>
             <button onClick={goSurvey}
-              style={{ padding: "9px 20px", backgroundColor: "#2563EB", color: "#FFFFFF", border: "none", borderRadius: "8px", fontSize: "13px", fontWeight: "800", cursor: "pointer", fontFamily: font }}>
-              무료 상담 신청
+              style={{ padding: "8px 16px", backgroundColor: "#2563EB", color: "#FFFFFF", border: "none", borderRadius: "8px", fontSize: "13px", fontWeight: "800", cursor: "pointer", fontFamily: font, whiteSpace: "nowrap" }}>
+              무료 상담
             </button>
           </div>
         </div>
       </header>
 
       {/* ══ 히어로 ══ */}
-      <section style={{ background: "linear-gradient(160deg, #0A1628 0%, #0D2244 45%, #112D5E 100%)", padding: "80px 24px 100px", position: "relative", overflow: "hidden" }}>
+      <section style={{ background: "linear-gradient(160deg, #0A1628 0%, #0D2244 45%, #112D5E 100%)", padding: "60px 16px 80px", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "300px", height: "300px", borderRadius: "50%", background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
 
-        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: "48px", alignItems: "center" }}>
+        <div className="ct-hero-grid" style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", backgroundColor: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.4)", borderRadius: "999px", padding: "6px 16px", marginBottom: "24px" }}>
               <span style={{ width: "7px", height: "7px", borderRadius: "50%", backgroundColor: "#10B981", display: "inline-block" }} />
               <span style={{ fontSize: "12px", color: "#60A5FA", fontWeight: "700", letterSpacing: "0.05em" }}>🔥 지금 바로 무료 상담 가능</span>
             </div>
 
-            <h1 style={{ fontSize: "44px", fontWeight: "900", color: "#FFFFFF", lineHeight: "1.2", marginBottom: "20px" }}>
+            <h1 style={{ fontSize: "clamp(26px, 5vw, 44px)", fontWeight: "900", color: "#FFFFFF", lineHeight: "1.2", marginBottom: "20px" }}>
               사업자금이 필요한데,<br />
               <span style={{ color: "#60A5FA" }}>"나도 가능할까"</span><br />
               고민되시나요?
@@ -141,7 +191,7 @@ export default function ConsultPage() {
           </div>
 
           {/* 신뢰 뱃지 */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: "200px" }}>
+          <div className="ct-hero-badges">
             {[
               { icon: "🏢", title: "경영컨설팅업", desc: "정식 등록" },
               { icon: "📅", title: "2024년 설립", desc: "법인회사" },
@@ -161,10 +211,10 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ 숫자 통계 (승인율 97%, 연간 1000+, 만족도 96%, 500억+) ══ */}
-      <section ref={statsRef} style={{ backgroundColor: "#0A1628", padding: "64px 24px" }}>
+      <section ref={statsRef} style={{ backgroundColor: "#0A1628", padding: "48px 16px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <p style={{ textAlign: "center", fontSize: "13px", fontWeight: "700", color: "#60A5FA", letterSpacing: "0.12em", marginBottom: "40px", fontFamily: font }}>PROVEN RESULTS</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1px", backgroundColor: "#1E2D47", borderRadius: "20px", overflow: "hidden" }}>
+          <div className="ct-stats-grid">
             {[
               { val: c1, suffix: "%", label: "사업자금 승인율", icon: "✅", color: "#10B981", sub: "타사 대비 최고 수준" },
               { val: c2, suffix: "+", label: "연간 상담 건수", icon: "💬", color: "#60A5FA", sub: "매년 꾸준히 증가 중" },
@@ -173,7 +223,7 @@ export default function ConsultPage() {
             ].map((s, i) => (
               <div key={i} style={{ backgroundColor: "#0A1628", padding: "40px 24px", textAlign: "center" }}>
                 <span style={{ fontSize: "28px", display: "block", marginBottom: "12px" }}>{s.icon}</span>
-                <p style={{ fontSize: "52px", fontWeight: "900", color: s.color, fontFamily: font, lineHeight: 1, marginBottom: "8px" }}>
+                <p style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: "900", color: s.color, fontFamily: font, lineHeight: 1, marginBottom: "8px" }}>
                   {s.val.toLocaleString()}{s.suffix}
                 </p>
                 <p style={{ fontSize: "14px", fontWeight: "700", color: "#E2E8F0", fontFamily: font, marginBottom: "4px" }}>{s.label}</p>
@@ -185,16 +235,16 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ 왜 혼자 하면 안 되나요? ══ */}
-      <section style={{ padding: "80px 24px", backgroundColor: "#F8FAFC" }}>
+      <section style={{ padding: "60px 16px", backgroundColor: "#F8FAFC" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "52px" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
             <p style={{ fontSize: "13px", fontWeight: "700", color: "#2563EB", letterSpacing: "0.1em", marginBottom: "12px", fontFamily: font }}>WHY PROFESSIONAL</p>
-            <h2 style={{ fontSize: "34px", fontWeight: "900", color: "#0A1628", marginBottom: "16px", fontFamily: font, lineHeight: "1.2" }}>
+            <h2 style={{ fontSize: "clamp(24px, 4vw, 34px)", fontWeight: "900", color: "#0A1628", marginBottom: "16px", fontFamily: font, lineHeight: "1.2" }}>
               혼자 하면 왜<br />실패하는 걸까요?
             </h2>
-            <p style={{ fontSize: "16px", color: "#64748B", fontFamily: font }}>사업자금은 전략 없이 접근하면 오히려 기회를 잃게 됩니다</p>
+            <p style={{ fontSize: "15px", color: "#64748B", fontFamily: font }}>사업자금은 전략 없이 접근하면 오히려 기회를 잃게 됩니다</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+          <div className="ct-why-grid">
             {[
               { step: "01", icon: "😭", title: "미리 준비하지 않으면 받기 힘든 사업자금", desc: "사업자금은 미리 준비한 만큼 승인 확률과 한도가 올라갑니다. 매출, 신용, 업종, 경력 등 상품마다 핵심 요소가 모두 다릅니다.", color: "#EF4444" },
               { step: "02", icon: "😥", title: "부결 시 재신청 6개월 불가", desc: "신청이 부결되면 6개월간 재신청이 불가능합니다. 급한 마음에 준비 없이 신청했다가 부결나면 정말 힘든 상황이 됩니다.", color: "#F59E0B" },
@@ -215,16 +265,16 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ 신뢰 섹션 ══ */}
-      <section style={{ background: "linear-gradient(135deg, #0A1628 0%, #112D5E 100%)", padding: "80px 24px" }}>
+      <section style={{ background: "linear-gradient(135deg, #0A1628 0%, #112D5E 100%)", padding: "60px 16px" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: "36px", fontWeight: "900", color: "#FFFFFF", marginBottom: "16px", lineHeight: "1.3", fontFamily: font }}>
+          <h2 style={{ fontSize: "clamp(24px, 4vw, 36px)", fontWeight: "900", color: "#FFFFFF", marginBottom: "16px", lineHeight: "1.3", fontFamily: font }}>
             사기 NO · 보이스피싱 NO<br />이제 <span style={{ color: "#60A5FA" }}>안심</span>하세요!
           </h2>
           <p style={{ fontSize: "16px", color: "#94A3B8", marginBottom: "48px", lineHeight: "1.7", fontFamily: font }}>
             엠프론티어랩은 경영컨설팅업으로 <strong style={{ color: "#FFFFFF" }}>정식 등록된 컨설팅 업체</strong>이며,<br />
             <strong style={{ color: "#FFFFFF" }}>2024년 설립된 법인회사</strong>로서 믿고 맡기실 수 있습니다.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "40px" }}>
+          <div className="ct-trust-grid">
             {[
               { icon: "🏛️", title: "경영컨설팅업 정식 등록", desc: "무등록 사기 업체와 다릅니다" },
               { icon: "📋", title: "법인사업자 2024년 설립", desc: "정식 법인회사로 운영됩니다" },
@@ -241,14 +291,14 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ 8단계 프로세스 ══ */}
-      <section style={{ padding: "80px 24px", backgroundColor: "#FFFFFF" }}>
+      <section style={{ padding: "60px 16px", backgroundColor: "#FFFFFF" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "52px" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
             <p style={{ fontSize: "13px", fontWeight: "700", color: "#2563EB", letterSpacing: "0.1em", marginBottom: "12px", fontFamily: font }}>HOW IT WORKS</p>
-            <h2 style={{ fontSize: "34px", fontWeight: "900", color: "#0A1628", marginBottom: "12px", fontFamily: font }}>8단계 전문 컨설팅 프로세스</h2>
-            <p style={{ fontSize: "15px", color: "#64748B", fontFamily: font }}>신청부터 자금 집행, 사후 관리까지 전담 매니저가 함께합니다</p>
+            <h2 style={{ fontSize: "clamp(22px, 4vw, 34px)", fontWeight: "900", color: "#0A1628", marginBottom: "12px", fontFamily: font }}>8단계 전문 컨설팅 프로세스</h2>
+            <p style={{ fontSize: "14px", color: "#64748B", fontFamily: font }}>신청부터 자금 집행, 사후 관리까지 전담 매니저가 함께합니다</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0", border: "1px solid #E2E8F0", borderRadius: "20px", overflow: "hidden" }}>
+          <div className="ct-process-grid">
             {[
               { n: "01", icon: "📝", title: "무료 상담 신청", desc: "기본정보 작성" },
               { n: "02", icon: "📞", title: "전화 상담", desc: "기업 현황 검토" },
@@ -259,7 +309,7 @@ export default function ConsultPage() {
               { n: "07", icon: "🎉", title: "사업자금 승인", desc: "성공 수수료 납부" },
               { n: "08", icon: "🛎️", title: "사후 관리", desc: "1년 추가 자금 관리" },
             ].map((p, i) => (
-              <div key={p.n} style={{ padding: "28px 16px", textAlign: "center", borderRight: i % 4 !== 3 ? "1px solid #E2E8F0" : "none", borderBottom: i < 4 ? "1px solid #E2E8F0" : "none", backgroundColor: i % 2 === 0 ? "#FAFBFF" : "#FFFFFF" }}>
+              <div key={p.n} className="ct-process-cell" style={{ borderRight: "1px solid #E2E8F0", borderBottom: "1px solid #E2E8F0", backgroundColor: i % 2 === 0 ? "#FAFBFF" : "#FFFFFF" }}>
                 <div style={{ width: "52px", height: "52px", borderRadius: "14px", backgroundColor: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", fontSize: "24px" }}>
                   {p.icon}
                 </div>
@@ -273,17 +323,17 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ 고객 후기 ══ */}
-      <section style={{ padding: "80px 24px", backgroundColor: "#F8FAFC" }}>
+      <section style={{ padding: "60px 16px", backgroundColor: "#F8FAFC" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
             <p style={{ fontSize: "13px", fontWeight: "700", color: "#2563EB", letterSpacing: "0.1em", marginBottom: "12px", fontFamily: font }}>REVIEWS</p>
-            <h2 style={{ fontSize: "34px", fontWeight: "900", color: "#0A1628", fontFamily: font }}>실제 고객 후기</h2>
+            <h2 style={{ fontSize: "clamp(22px, 4vw, 34px)", fontWeight: "900", color: "#0A1628", fontFamily: font }}>실제 고객 후기</h2>
             <div style={{ display: "flex", justifyContent: "center", gap: "4px", marginTop: "10px" }}>
               {[1,2,3,4,5].map(i => <span key={i} style={{ fontSize: "20px" }}>⭐</span>)}
             </div>
           </div>
 
-          <div style={{ backgroundColor: "#0A1628", borderRadius: "20px", padding: "40px", marginBottom: "24px", position: "relative", overflow: "hidden" }}>
+          <div style={{ backgroundColor: "#0A1628", borderRadius: "20px", padding: "24px 20px", marginBottom: "24px", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: "20px", right: "28px", fontSize: "80px", opacity: 0.05, color: "#FFFFFF", fontFamily: "serif" }}>"</div>
             <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
               <div style={{ flexShrink: 0, width: "52px", height: "52px", borderRadius: "50%", backgroundColor: "#1E3A8A", display: "flex", alignItems: "center", justifyContent: "center", border: `3px solid ${GRADE_C[REVIEWS[reviewIdx].grade]}` }}>
@@ -308,7 +358,7 @@ export default function ConsultPage() {
             ))}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "14px" }}>
+          <div className="ct-review-grid">
             {REVIEWS.map((r, i) => (
               <div key={i} onClick={() => setReviewIdx(i)}
                 style={{ backgroundColor: "#FFFFFF", borderRadius: "14px", padding: "20px", border: `1.5px solid ${i === reviewIdx ? "#2563EB" : "#E2E8F0"}`, cursor: "pointer", transition: "all 0.2s", boxShadow: i === reviewIdx ? "0 4px 20px rgba(37,99,235,0.12)" : "0 1px 4px rgba(0,0,0,0.04)" }}>
@@ -330,11 +380,11 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ FAQ ══ */}
-      <section style={{ padding: "80px 24px", backgroundColor: "#FFFFFF" }}>
+      <section style={{ padding: "60px 16px", backgroundColor: "#FFFFFF" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
             <p style={{ fontSize: "13px", fontWeight: "700", color: "#2563EB", letterSpacing: "0.1em", marginBottom: "12px", fontFamily: font }}>FAQ</p>
-            <h2 style={{ fontSize: "34px", fontWeight: "900", color: "#0A1628", fontFamily: font }}>자주 묻는 질문</h2>
+            <h2 style={{ fontSize: "clamp(22px, 4vw, 34px)", fontWeight: "900", color: "#0A1628", fontFamily: font }}>자주 묻는 질문</h2>
           </div>
           {[
             { q: "상담은 정말 무료인가요?", a: "네, 상담은 100% 무료입니다. 정책자금이 승인된 경우에만 성공 수수료가 발생하며, 상담 자체는 어떠한 비용도 없습니다. 미승인 시 착수금 100% 환불을 보장합니다." },
@@ -361,10 +411,10 @@ export default function ConsultPage() {
       </section>
 
       {/* ══ CTA 섹션 (설문 시작 유도) ══ */}
-      <section style={{ padding: "80px 24px", background: "linear-gradient(160deg, #0A1628 0%, #0D2244 50%, #112D5E 100%)" }}>
+      <section style={{ padding: "60px 16px", background: "linear-gradient(160deg, #0A1628 0%, #0D2244 50%, #112D5E 100%)" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center" }}>
           <p style={{ fontSize: "13px", fontWeight: "700", color: "#60A5FA", letterSpacing: "0.1em", marginBottom: "16px", fontFamily: font }}>FREE CONSULTATION</p>
-          <h2 style={{ fontSize: "36px", fontWeight: "900", color: "#FFFFFF", marginBottom: "16px", lineHeight: "1.3", fontFamily: font }}>
+          <h2 className="ct-cta-h2" style={{ fontWeight: "900", color: "#FFFFFF", marginBottom: "16px", lineHeight: "1.3", fontFamily: font }}>
             대표님의 사업자금 고민<br />
             <span style={{ color: "#60A5FA" }}>반드시 해결해 드리겠습니다.</span>
           </h2>
@@ -374,8 +424,8 @@ export default function ConsultPage() {
           <p style={{ fontSize: "13px", color: "#475569", marginBottom: "36px", fontFamily: font }}>
             ✔ 소요시간 약 3분 &nbsp;·&nbsp; ✔ 상담비 0원 &nbsp;·&nbsp; ✔ 24시간 신청 가능
           </p>
-          <button onClick={goSurvey}
-            style={{ padding: "18px 56px", backgroundColor: "#2563EB", color: "#FFFFFF", border: "none", borderRadius: "14px", fontSize: "18px", fontWeight: "900", cursor: "pointer", fontFamily: font, boxShadow: "0 8px 32px rgba(37,99,235,0.4)", marginBottom: "16px" }}>
+          <button onClick={goSurvey} className="ct-cta-btn"
+            style={{ backgroundColor: "#2563EB", color: "#FFFFFF", border: "none", borderRadius: "14px", fontWeight: "900", cursor: "pointer", fontFamily: font, boxShadow: "0 8px 32px rgba(37,99,235,0.4)", marginBottom: "16px" }}>
             무료 상담 시작하기 →
           </button>
           <div style={{ display: "flex", justifyContent: "center", gap: "24px", flexWrap: "wrap", marginTop: "16px" }}>
@@ -404,8 +454,8 @@ export default function ConsultPage() {
 
       {/* ══ 플로팅 버튼 ══ */}
       {floatVisible && (
-        <button onClick={goSurvey}
-          style={{ position: "fixed", bottom: "28px", right: "28px", zIndex: 200, padding: "14px 24px", backgroundColor: "#2563EB", color: "#FFFFFF", border: "none", borderRadius: "999px", fontSize: "14px", fontWeight: "800", cursor: "pointer", fontFamily: font, boxShadow: "0 8px 32px rgba(37,99,235,0.5)" }}>
+        <button onClick={goSurvey} className="ct-float-btn"
+          style={{ backgroundColor: "#2563EB", color: "#FFFFFF", border: "none", borderRadius: "999px", fontWeight: "800", cursor: "pointer", fontFamily: font, boxShadow: "0 8px 32px rgba(37,99,235,0.5)" }}>
           🔥 무료 상담 신청
         </button>
       )}
