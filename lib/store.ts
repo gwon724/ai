@@ -3084,6 +3084,29 @@ export function submitConsultation(
   const list = getAllConsultations();
   list.unshift(consultation);
   saveAllConsultations(list);
+
+  // 텔레그램 알림 + 알림톡 발송 (비동기, 실패해도 상담 신청은 정상 처리)
+  if (typeof window !== "undefined") {
+    fetch("/api/telegram", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ consultation }),
+    }).catch((e) => console.warn("[Telegram] 알림 발송 실패:", e));
+
+    fetch("/api/alimtalk", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ consultation }),
+    }).catch((e) => console.warn("[Alimtalk] 알림 발송 실패:", e));
+
+    // 서버에 즉시 동기화
+    fetch("/api/db", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: "consultations", value: getAllConsultations() }),
+    }).catch(() => {});
+  }
+
   return consultation;
 }
 
